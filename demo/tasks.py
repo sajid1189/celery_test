@@ -1,9 +1,41 @@
 import time
 from celery import shared_task
+from celery.utils.log import get_task_logger
+from contextlib import contextmanager
+
+from django.core.cache import cache
+from hashlib import md5
+
+logger = get_task_logger(__name__)
+LOCK_EXPIRE = 60 * 10  # Lock expires in 10 minutes
+
+
+@contextmanager
+def locker(lock_id):
+    timeout_at = time.monotonic() + LOCK_EXPIRE
+    status = cache.add(lock_id, 1, LOCK_EXPIRE)
+    if status:
+        logger.info(f"acquired lock at {time.asctime()} for {lock_id}")
+
+    try:
+
+        yield status
+    finally:
+        print("I am being called")
+        if time.monotonic() < timeout_at and status:
+            cache.delete(lock_id)
 
 
 @shared_task()
-def heavy_task():
-    print("heavy loading....")
-    time.sleep(3)
-    print("heavy loading done...")
+def heavy_task(title="unique_title"):
+    with locker(lock_id=title) as acquired:
+        if acquired:
+            logger.info(f"lock acquired at {time.asctime()}")
+            time.sleep(4)
+            from demo.models import Invoice
+            if not Invoice.objects.filter(title=title).exists():
+                Invoice.objects.create(title=title)
+            print("heavy loading done...")
+        else:
+            logger.info(
+                'Invoice %s is already being created by another worker', title)
