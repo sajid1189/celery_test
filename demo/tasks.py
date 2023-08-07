@@ -1,4 +1,6 @@
 import time
+
+import redis
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from contextlib import contextmanager
@@ -33,9 +35,16 @@ def heavy_task(title="unique_title"):
             logger.info(f"lock acquired at {time.asctime()}")
             time.sleep(4)
             from demo.models import Invoice
-            if not Invoice.objects.filter(title=title).exists():
-                Invoice.objects.create(title=title)
+            Invoice.objects.create(title=title)
             print("heavy loading done...")
+            return time.asctime()
         else:
             logger.info(
                 'Invoice %s is already being created by another worker', title)
+
+
+@shared_task()
+def another_task():
+    time.sleep(4)
+
+    logger.info(".................................g")
