@@ -16,31 +16,24 @@ LOCK_EXPIRE = 60 * 10  # Lock expires in 10 minutes
 def locker(lock_id):
     timeout_at = time.monotonic() + LOCK_EXPIRE
     status = cache.add(lock_id, 1, LOCK_EXPIRE)
-    if status:
-        logger.info(f"acquired lock at {time.asctime()} for {lock_id}")
-
     try:
-
         yield status
     finally:
-        print("I am being called")
         if time.monotonic() < timeout_at and status:
             cache.delete(lock_id)
 
 
 @shared_task()
-def heavy_task(title="unique_title"):
-    with locker(lock_id=title) as acquired:
+def singleton_task(title="unique_title"):
+    with locker(lock_id="MY_LOCK") as acquired:
         if acquired:
             logger.info(f"lock acquired at {time.asctime()}")
-            time.sleep(4)
+            time.sleep(15)
             from demo.models import Invoice
             Invoice.objects.create(title=title)
-            print("heavy loading done...")
             return time.asctime()
         else:
-            logger.info(
-                'Invoice %s is already being created by another worker', title)
+            logger.info('Invoice creation task is already running')
 
 
 @shared_task()
