@@ -11,7 +11,7 @@
 - python manage.py flush --no-input (to clear any existing data)
 - open a console and from inside of project root (celery_test/) run  export DJANGO_SETTINGS_MODULE=celery_test.settings_db_cache
 - Now run  ./manage.py runserver
-- On your browser request http://127.0.0.1:8000/hello  -> This will submit same celery tasks 10 times
+- On your browser request http://127.0.0.1:8000/hello  -> This will submit the same celery task 10 times
 - On another console, from inside of project root (celery_test/) run export DJANGO_SETTINGS_MODULE=celery_test.settings_db_cache
 - celery -A celery_test worker --loglevel=INFO
 
@@ -23,7 +23,7 @@ If that is the case then we can conclude that the locking mechanism worked. I ob
 - python manage.py flush --no-input (to clear any existing data)
 - open a console and from inside of project root (celery_test/) run  export DJANGO_SETTINGS_MODULE=celery_test.settings_local_cache
 - Now run  ./manage.py runserver
-- On your browser request http://127.0.0.1:8000/hello  -> This will submit same celery tasks 10 times
+- On your browser request http://127.0.0.1:8000/hello  -> This will submit the same celery task 10 times
 - On another console, from inside of project root (celery_test/) run export DJANGO_SETTINGS_MODULE=celery_test.settings_local_cache
 - celery -A celery_test worker --loglevel=INFO
 
@@ -36,7 +36,7 @@ If that is the case then we can conclude that the locking mechanism worked. I fo
 - python manage.py flush --no-input (to clear any existing data)
 - open a console and from inside of project root (celery_test/) run  export DJANGO_SETTINGS_MODULE=celery_test.settings_pymema_cache
 - Now run  ./manage.py runserver
-- On your browser request http://127.0.0.1:8000/hello  -> This will submit same celery tasks 10 times
+- On your browser request http://127.0.0.1:8000/hello  -> This will submit the same celery task 10 times
 - On another console, from inside of project root (celery_test/) run export DJANGO_SETTINGS_MODULE=celery_test.settings_pymema_cache
 - celery -A celery_test worker --loglevel=INFO
 
