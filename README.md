@@ -5,7 +5,7 @@
 - Install the python packages in requirements in requirememts.txt
 - migrate the database
   
-## Using the database cache as lock
+### Using the database cache as lock
 - run `python manage.py createcachetable`
 - It will create a table named my_cache_table (defined in `celery_test/settings_db_cache.py`)
 - `python manage.py flush --no-input` (to clear any existing data)
@@ -19,7 +19,7 @@ The celery worker should execute the tasks. Each task will race to acquire the l
 If that is the case then we can conclude that the locking mechanism worked. I observed that only one Invoice is created in every attempt.
 #### Kill all the above processes
 
-## Using  LocMemCache as lock (Mind the `export` commands, that is the only difference)
+### Using  LocMemCache as lock (Mind the `export` commands, that is the only difference)
 - `python manage.py flush` --no-input (to clear any existing data)
 - open a console and from inside of project root (celery_test/) run  `export DJANGO_SETTINGS_MODULE=celery_test.settings_local_cache`
 - Now run  `./manage.py runserver`
@@ -32,7 +32,7 @@ If that is the case then we can conclude that the locking mechanism worked. I fo
 
 #### Kill all the above processes
 
-## Using  LocMemCache as lock (Mind the `export` commands, that is the only difference)
+### Using  PyMemcacheCache as lock (Mind the `export` commands, that is the only difference)
 - `python manage.py flush` --no-input (to clear any existing data)
 - open a console and from inside of project root (celery_test/) run  `export DJANGO_SETTINGS_MODULE=celery_test.settings_pymema_cache`
 - Now run  `./manage.py runserver`
