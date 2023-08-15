@@ -1,4 +1,4 @@
-### A Django app to demonstrate the locking capabilities of various caching backends: database cache, LocMemCache and PyMemcacheCache
+### A Django app to demonstrate the locking capabilities of various caching backends: database cache, LocMemCache and PyMemcacheCache. This deomnstration is inspired by https://docs.celeryq.dev/en/stable/tutorials/task-cookbook.html#ensuring-a-task-is-only-executed-one-at-a-time
 ## Steps to setup
 - Install Redis and make sure that it is running at port 6379 (default)
 - Install memcached and make sure that it is running at port 11211 (default)
