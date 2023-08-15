@@ -6,8 +6,6 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    # settings_file = os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'celery_test.settings_pymema_cache')
-    # print(f"Setting up Django with {settings_file}")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
