@@ -24,7 +24,7 @@ def locker(lock_id):
 def singleton_task(title="unique_title"):
     with locker(lock_id="MY_LOCK") as acquired:
         if acquired:
-            logger.info(f"lock acquired at {time.asctime()}")
+            logger.warning(f"lock acquired at {time.asctime()}")
             time.sleep(3)
             from demo.models import Invoice
             Invoice.objects.create(title=title)
