@@ -4,7 +4,9 @@
 - Install memcached and make sure that it is running at port 11211 (default)
 - Install the python packages in requirements in requirememts.txt
 - migrate the database
-  
+
+## Run the app in three different mode (using 3 different cache) using DJANGO_SETTINGS_MODULE environment variable. There are seperate settings files for each caching backend: `settings_db_cache.py`, `settings_local_cache.py` and `settings_pymema_cache.py` 
+
 ### Using the database cache as lock
 - run `python manage.py createcachetable`
 - It will create a table named my_cache_table (defined in `celery_test/settings_db_cache.py`)
