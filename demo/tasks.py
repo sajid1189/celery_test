@@ -1,15 +1,12 @@
 import time
-
-import redis
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from contextlib import contextmanager
 
 from django.core.cache import cache
-from hashlib import md5
 
 logger = get_task_logger(__name__)
-LOCK_EXPIRE = 60 * 10  # Lock expires in 10 minutes
+LOCK_EXPIRE = 60 * 10
 
 
 @contextmanager
@@ -28,16 +25,9 @@ def singleton_task(title="unique_title"):
     with locker(lock_id="MY_LOCK") as acquired:
         if acquired:
             logger.info(f"lock acquired at {time.asctime()}")
-            time.sleep(15)
+            time.sleep(3)
             from demo.models import Invoice
             Invoice.objects.create(title=title)
             return time.asctime()
         else:
             logger.info('Invoice creation task is already running')
-
-
-@shared_task()
-def another_task():
-    time.sleep(4)
-
-    logger.info(".................................g")
