@@ -17,8 +17,8 @@
 - On another console, from inside of project root (celery_test/) run `export DJANGO_SETTINGS_MODULE=celery_test.settings_db_cache`
 - `celery -A celery_test worker --loglevel=INFO`
 
-The celery worker should execute the tasks. Each task will race to acquire the lock and if if acquired it will create an Invoice object in the DB. If the locking mechanism works then only one task should be able to run and hence only one Invoice object should exist in the DB.
-If that is the case then we can conclude that the locking mechanism worked. I observed that only one Invoice is created in every attempt.
+The celery worker should start executing the tasks. Each task will race to acquire the lock. If the task acquires the lock then it will create an Invoice object in the DB (this is the objective of the task). If the locking mechanism works properly then only one task should be able to create an Invoice object . Hence, only one Invoice object should exist in the enitire DB at the end. If that is the case then we can conclude that the locking mechanism worked. I observed that only one Invoice was created.
+
 #### Kill all the above processes
 
 ### Using  LocMemCache as lock (Mind the `export` commands, that is the only difference)
@@ -29,8 +29,7 @@ If that is the case then we can conclude that the locking mechanism worked. I ob
 - On another console, from inside of project root (celery_test/) run `export DJANGO_SETTINGS_MODULE=celery_test.settings_local_cache`
 - `celery -A celery_test worker --loglevel=INFO`
 
-The celery worker should execute the tasks. Each task will race to acquire the lock and if if acquired it will create an Invoice object in the DB. If the locking mechanism works then only one task should be able to run and hence only one Invoice object should exist in the DB.
-If that is the case then we can conclude that the locking mechanism worked. I found out that all the 10 tasks acquired lock and 10 inovices are created in every attempt. 
+It was aobserved that all the 10 tasks acquired the lock and 10 inovices were created. 
 
 #### Kill all the above processes
 
@@ -42,6 +41,5 @@ If that is the case then we can conclude that the locking mechanism worked. I fo
 - On another console, from inside of project root (celery_test/) run `export DJANGO_SETTINGS_MODULE=celery_test.settings_pymema_cache`
 - `celery -A celery_test worker --loglevel=INFO`
 
-The celery worker should execute the tasks. Each task will race to acquire the lock and if if acquired it will create an Invoice object in the DB. If the locking mechanism works then only one task should be able to run and hence only one Invoice object should exist in the DB.
-If that is the case then we can conclude that the locking mechanism worked.I observed that only one Invoice is created in every attempt.
+It was aobserved that all only one task acquired the lock and only 1 inovice was created.
 
